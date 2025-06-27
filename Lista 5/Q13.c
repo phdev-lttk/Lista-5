@@ -6,26 +6,35 @@
 
 #include <stdio.h>
 #include <string.h>
-#define personas 2
+
+#define personas 6
 
 struct Pessoas {
     char nome[100];
     int dia;
     int mes;
     int ano;
-    int idadeA;
 };
 
+int mais_velho(struct Pessoas a, struct Pessoas b) {
+    if (a.ano < b.ano) return 1;
+    if (a.ano == b.ano && a.mes < b.mes) return 1;
+    if (a.ano == b.ano && a.mes == b.mes && a.dia < b.dia) return 1;
+    return 0;
+}
+
+int mais_novo(struct Pessoas a, struct Pessoas b) {
+    if (a.ano > b.ano) return 1;
+    if (a.ano == b.ano && a.mes > b.mes) return 1;
+    if (a.ano == b.ano && a.mes == b.mes && a.dia > b.dia) return 1;
+    return 0;
+}
+
 int main() {
-
-    int i, j;
-    char older[100];
-    char newer[100];
-
     struct Pessoas p[personas];
+    int i;
 
     for (i = 0; i < personas; i++) {
-
         printf("Nome %d: ", i + 1);
         fgets(p[i].nome, sizeof(p[i].nome), stdin);
         p[i].nome[strcspn(p[i].nome, "\n")] = '\0';
@@ -39,28 +48,22 @@ int main() {
         printf("Insira o ano do seu aniversario: ");
         scanf("%d", &p[i].ano);
         getchar();
-
-        p[i].idadeA = 2025 - p[i].ano;
     }
 
-        int maior = p[0].idadeA;
-        int menor = p[0].idadeA;
+    struct Pessoas maisVelho = p[0];
+    struct Pessoas maisNovo = p[0];
 
-        strcpy(older, p[0].nome);
-        strcpy(newer, p[0].nome);
-
-
-        for (j = 1; j < personas; j++) {
-            if(p[j].idadeA > maior) {
-               maior = p[j].idadeA;
-               strcpy(older, p[j].nome);
-            } else if (p[j].idadeA < menor) {
-                menor = p[j].idadeA;
-                strcpy(newer, p[j].nome);
-            }
+    for (i = 1; i < personas; i++) {
+        if (mais_velho(p[i], maisVelho)) {
+            maisVelho = p[i];
         }
+        if (mais_novo(p[i], maisNovo)) {
+            maisNovo = p[i];
+        }
+    }
 
-    printf("\nMenor elemento: %s, %d", newer, menor);
-    printf("\nMaior elemento: %s, %d\n", older, maior);
+    printf("\nPessoa mais velha: %s (%02d/%02d/%04d)", maisVelho.nome, maisVelho.dia, maisVelho.mes, maisVelho.ano);
+    printf("\nPessoa mais nova: %s (%02d/%02d/%04d)\n", maisNovo.nome, maisNovo.dia, maisNovo.mes, maisNovo.ano);
 
+    return 0;
 }

@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#define qtd_al 2
+#define qtd_al 5
 
 struct Aluno {
     int matricula;
