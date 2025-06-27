@@ -1,0 +1,4 @@
+/*
+    Elabore uma função que receba um vetor contendo N valores e retorne por 
+    referência o maior e o menor elemento desse vetor. 
+*/
